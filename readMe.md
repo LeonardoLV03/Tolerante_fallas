@@ -1,11 +1,3 @@
-# Diagrama de Arquitectura
-
-<p>Sistema de multiples servidores para la realización de operaciones de cifrado y firma de mensajes dentro de un ambiente de TI compuesto por una red virtual y distintos contenedores (aplicaciones cliente-servidor)</p>
-
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/34323866/211435090-18391ed3-500f-420a-8b03-aa013176386e.png"/>
-</div>
-
 # Instrucciones de ejecución
 
 
