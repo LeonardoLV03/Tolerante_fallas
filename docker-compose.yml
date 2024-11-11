@@ -1,0 +1,65 @@
+services:
+
+  proxy-server:
+    build: ./proxy-server
+    container_name: proxy-server
+    ports:
+      - 8081:8081
+    networks:
+      - sd-net
+    volumes:
+      - ./proxy-server:/usr/src/app
+
+  key-server:
+    depends_on:
+      - proxy-server
+    build: ./key-server
+    container_name: key-server
+    ports:
+      - 3000:3000
+    networks:
+      - sd-net
+    volumes:
+      - ./key-server:/usr/src/app
+      - type: bind
+        source: ./db
+        target: /usr/src/app/db
+
+  authentication-server:
+    depends_on:
+      - proxy-server
+    build: ./authentication-server
+    container_name: authentication-server
+    ports:
+      - 5003:5003
+    networks:
+      - sd-net
+    volumes:
+      - ./authentication-server:/usr/src/app
+      - type: bind
+        source: ./db
+        target: /usr/src/app/db
+
+  client:
+    depends_on:
+      - proxy-server
+      - key-server
+      - authentication-server
+    container_name: client-app
+    build: ./client
+    networks:
+      - sd-net
+    volumes:
+      - ./client:/usr/src/app
+      - type: bind
+        source: ./in
+        target: /usr/src/app/in
+      - type: bind
+        source: ./out
+        target: /usr/src/app/out
+
+
+networks:
+  sd-net:
+    name: sd-network
+    driver: bridge
